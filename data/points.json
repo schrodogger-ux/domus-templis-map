@@ -1,1 +1,39 @@
+[
+  {
+    "name": "Hotel de La Fourberie",
+    "description": "Zone de quêtes",
+    "type": "FOURBE",
+    "coords": [
+      998.75,
+      1004.5
+    ]
+  },
+  {
+    "name": "Acte I",
+    "description": "Quête journalière facile",
+    "type": "ACTI",
+    "coords": [
+      912.25,
+      909.5
+    ]
+  },
+  {
+    "name": "Acte III",
+    "description": "Quête journalière difficile",
+    "type": "ACTIII",
+    "coords": [
+      1014.75,
+      891.75
+    ]
+  },
+  {
+    "name": "Acte II",
+    "description": "Quête journalière moyenne",
+    "type": "ACTII",
+    "coords": [
+      918.75,
+      1090
+    ]
+  }
+]
 

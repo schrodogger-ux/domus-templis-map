@@ -1,15 +1,7 @@
 // --------------------
 // 1️⃣ INIT MAP
 // --------------------
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-
-const map = L.map('map', {
-  crs: L.CRS.Simple,
-  minZoom: -2,
-  maxZoom: 3
-});
-
+const map = L.map('map', { crs: L.CRS.Simple, minZoom: -2, maxZoom: 3 });
 const bounds = [[0,0], [2000,2000]];
 L.imageOverlay('images/map2.jpg', bounds).addTo(map);
 map.fitBounds(bounds);
@@ -42,25 +34,24 @@ const firebaseConfig = {
   messagingSenderId: "928690886299",
   appId: "1:928690886299:web:9c05973478fffc3bad983e"
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const pointsCol = collection(db, "points");
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const pointsCol = db.collection("points");
 
 // --------------------
 // 4️⃣ CHARGER LES POINTS EXISTANTS
 // --------------------
 let points = {};
-async function loadPoints() {
-  const snapshot = await getDocs(pointsCol);
+pointsCol.get().then(snapshot => {
   snapshot.forEach(docSnap => {
     const p = docSnap.data();
     const marker = L.marker(p.coords, { icon: icons[p.type] || icons.ACTI })
       .addTo(map)
       .bindPopup(`<b>${p.name}</b><br>${p.description}<br><i>${p.type}</i>`);
-    
+
     marker.on('contextmenu', async () => {
       if (confirm("Supprimer ce point ?")) {
-        await deleteDoc(doc(pointsCol, docSnap.id));
+        await pointsCol.doc(docSnap.id).delete();
         map.removeLayer(marker);
         delete points[docSnap.id];
       }
@@ -68,8 +59,7 @@ async function loadPoints() {
 
     points[docSnap.id] = marker;
   });
-}
-loadPoints();
+});
 
 // --------------------
 // 5️⃣ AJOUT DE POINTS
@@ -83,7 +73,7 @@ map.on('click', async e => {
     "ACTI"
   );
 
-  const docRef = await addDoc(pointsCol, {
+  const docRef = await pointsCol.add({
     name,
     description,
     type,
@@ -96,7 +86,7 @@ map.on('click', async e => {
 
   marker.on('contextmenu', async () => {
     if (confirm("Supprimer ce point ?")) {
-      await deleteDoc(doc(pointsCol, docRef.id));
+      await pointsCol.doc(docRef.id).delete();
       map.removeLayer(marker);
       delete points[docRef.id];
     }

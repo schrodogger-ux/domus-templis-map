@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Domus Templis – Carte RP</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -14,11 +15,15 @@
 
 <div id="map"></div>
 
-<!-- 1️⃣ Charger Leaflet JS d'abord -->
+<!-- Leaflet -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- 2️⃣ Ensuite ton code map.js (module pour Firebase) -->
-<script type="module" src="js/map.js"></script>
+<!-- Firebase compat pour GitHub Pages -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+<!-- Ton JS map -->
+<script src="js/map.js"></script>
 
 </body>
 </html>

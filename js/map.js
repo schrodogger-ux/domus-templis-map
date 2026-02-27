@@ -96,13 +96,20 @@ map.on('click', async e => {
 });
 
 // --------------------
-// 6️⃣ FILTRES
+// 6️⃣ FILTRES avec icônes + propagation désactivée
 // --------------------
 const filterDiv = L.control({position: 'topright'});
 filterDiv.onAdd = function () {
   const div = L.DomUtil.create('div', 'filters');
   div.innerHTML = "<b>Filtres :</b><br>" + 
-    Object.keys(icons).map(t => `<input type="checkbox" class="filter" value="${t}" checked> ${t}<br>`).join('');
+    Object.keys(icons).map(t => {
+      return `<input type="checkbox" class="filter" value="${t}" checked> 
+              <img src="icons/${t}.png" width="20" style="vertical-align:middle;margin-right:4px"> ${t}<br>`;
+    }).join('');
+
+  // Empêche la map de réagir aux clics sur ce div
+  L.DomEvent.disableClickPropagation(div);
+
   return div;
 };
 filterDiv.addTo(map);
